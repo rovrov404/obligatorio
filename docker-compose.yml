@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: torneo_f5_db
+    environment:
+      MYSQL_ROOT_PASSWORD: TorneoBD_2026!
+    ports:
+      - "3307:3306"
+    volumes:
+      - torneo_mysql_data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pTorneoBD_2026!"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    container_name: torneo_f5_app
+    environment:
+      FLASK_SECRET_KEY: docker-clave-local-torneo-2026
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: torneo_f5
+      MYSQL_AUTH_USER: torneo_auth
+      MYSQL_AUTH_PASSWORD: Auth_torneo_2026!
+      MYSQL_ADMIN_USER: torneo_admin
+      MYSQL_ADMIN_PASSWORD: Admin_torneo_2026!
+      MYSQL_PLANILLERO_USER: torneo_planillero
+      MYSQL_PLANILLERO_PASSWORD: Planillero_torneo_2026!
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  torneo_mysql_data:

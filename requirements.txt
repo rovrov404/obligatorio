@@ -1,0 +1,6 @@
+Flask>=3.0,<4
+mysql-connector-python>=9.0,<10
+python-dotenv>=1.0,<2
+bcrypt>=4.0,<6
+pytest>=8,<10
+

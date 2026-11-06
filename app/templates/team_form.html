@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}Equipo{% endblock %}{% block content %}<section class="card"><h1>{{ 'Editar' if team else 'Nuevo' }} equipo</h1><form method="post" class="form-grid">
+<div class="form-field"><label>Nombre</label><input name="nombre" value="{{ team.nombre if team else '' }}" required></div>
+{% if not team %}<div class="form-field"><label>Torneo</label><select name="id_torneo">{% for t in tournaments %}<option value="{{ t.id_torneo }}">{{ t.nombre }} - {{ t.estado }}</option>{% endfor %}</select></div>{% endif %}
+<div class="form-field"><label>Facultad</label><select name="id_facultad">{% for f in faculties %}<option value="{{ f.id_facultad }}" {{ 'selected' if team and team.id_facultad==f.id_facultad else '' }}>{{ f.nombre }}</option>{% endfor %}</select></div>
+<div class="form-field full actions"><button class="primary-button">Guardar</button><a class="secondary-button" href="{{ url_for('teams.index') }}">Cancelar</a></div></form></section>{% endblock %}

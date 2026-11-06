@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Torneo F5{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <p class="eyebrow">Sistema conectado</p>
+    <h1>Bienvenido al Torneo F5</h1>
+    <p>Ingresaste como <strong>{{ role }}</strong>.</p>
+</section>
+
+<section class="stats-grid">
+    <article><strong>{{ stats.jugadores }}</strong><span>Jugadores</span></article>
+    <article><strong>{{ stats.equipos }}</strong><span>Equipos</span></article>
+    <article><strong>{{ stats.partidos }}</strong><span>Partidos</span></article>
+    <article><strong>{{ stats.jugados }}</strong><span>Jugados</span></article>
+</section>
+
+<section class="menu-grid">
+    {% if role == 'administrador' %}
+        <a class="menu-card" href="{{ url_for('players.index') }}"><h2>Jugadores</h2><p>Altas, bajas y modificaciones.</p></a>
+        <a class="menu-card" href="{{ url_for('teams.index') }}"><h2>Equipos</h2><p>Equipos, planteles y capitanes.</p></a>
+        <a class="menu-card" href="{{ url_for('matches.index') }}"><h2>Partidos</h2><p>Fixture, canchas y estados.</p></a>
+    {% endif %}
+
+    <a class="menu-card" href="{{ url_for('sheets.index') }}">
+        <h2>Planillas</h2>
+        <p>Participantes, goles y tarjetas de cada partido.</p>
+    </a>
+
+    {% if role == 'administrador' %}
+        <a class="menu-card" href="{{ url_for('reports.index') }}"><h2>Reportes</h2><p>Posiciones, goleadores, fair play y más.</p></a>
+    {% endif %}
+</section>
+{% endblock %}
+

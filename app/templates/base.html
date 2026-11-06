@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Torneo F5{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('main.index') }}">Torneo Interfacultades F5</a>
+        {% if session.get('user_email') %}
+            <nav class="main-nav">
+                <a href="{{ url_for('main.dashboard') }}">Inicio</a>
+                {% if session.get('user_role') == 'administrador' %}
+                    <a href="{{ url_for('players.index') }}">Jugadores</a>
+                    <a href="{{ url_for('teams.index') }}">Equipos</a>
+                    <a href="{{ url_for('venues.index') }}">Canchas</a>
+                    <a href="{{ url_for('matches.index') }}">Partidos</a>
+                    <a href="{{ url_for('sanctions.index') }}">Sanciones</a>
+                    <a href="{{ url_for('reports.index') }}">Reportes</a>
+                {% endif %}
+                <a href="{{ url_for('sheets.index') }}">Planillas</a>
+            </nav>
+            <div class="session-info">
+                <span>{{ session.get('user_email') }} - {{ session.get('user_role') }}</span>
+                <form action="{{ url_for('auth.logout') }}" method="post">
+                    <button class="link-button" type="submit">Cerrar sesión</button>
+                </form>
+            </div>
+        {% endif %}
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
+

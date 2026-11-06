@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Jugador{% endblock %}
+{% block content %}<section class="card"><h1>{{ 'Editar' if player else 'Nuevo' }} jugador</h1><form method="post" class="form-grid">
+<div class="form-field"><label>CI</label><input name="ci" value="{{ player.ci if player else '' }}" {{ 'readonly' if player else '' }} required></div>
+<div class="form-field"><label>Nombre</label><input name="nombre" value="{{ player.nombre if player else '' }}" required></div>
+<div class="form-field"><label>Apellido</label><input name="apellido" value="{{ player.apellido if player else '' }}" required></div>
+<div class="form-field"><label>Email</label><input type="email" name="email" value="{{ player.email if player else '' }}" required></div>
+<div class="form-field"><label>Fecha de nacimiento</label><input type="date" name="fecha_nacimiento" value="{{ player.fecha_nacimiento if player else '' }}" required></div>
+<div class="form-field"><label>Facultad</label><select name="id_facultad" required>{% for f in faculties %}<option value="{{ f.id_facultad }}" {{ 'selected' if player and player.id_facultad==f.id_facultad else '' }}>{{ f.nombre }}</option>{% endfor %}</select></div>
+<div class="form-field"><label>Tipo</label><select name="tipo">{% for type in player_types %}<option {{ 'selected' if player and player.tipo==type else '' }}>{{ type }}</option>{% endfor %}</select></div>
+<div class="form-field full actions"><button class="primary-button">Guardar</button><a class="secondary-button" href="{{ url_for('players.index') }}">Cancelar</a></div>
+</form></section>{% endblock %}
